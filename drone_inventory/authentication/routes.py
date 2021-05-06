@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from drone_inventory.forms import UserLoginForm
 from drone_inventory.models import User, db, check_password_hash
-
 from flask_login import login_user, logout_user, current_user, login_required
 
 
@@ -52,3 +51,10 @@ def signin():
         raise Exception('Invalid form Data: Please check your form')
 
     return render_template('signin.html', form = form)
+
+
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('site.home'))
