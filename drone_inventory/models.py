@@ -11,7 +11,7 @@ import secrets
 #import for Flask-Login classes
 from flask_login import UserMixin, LoginManager
 
-# Import Marshaller
+# Install our Marshaller
 from flask_marshmallow import Marshmallow
 
 
@@ -60,8 +60,8 @@ class Drone(db.Model):
     id = db.Column(db.String, primary_key = True)
     name = db.Column(db.String(150))
     description = db.Column(db.String(200), nullable = True)
-    price = db.Column(db.Numeric(precision=10, scale = 2))
-    camera_quality = db.Column(db.String(150), nullable = True)
+    price = db.Column(db.Numeric(precision = 10, scale = 2))
+    camera_quality = db.Column(db.String(120), nullable = True)
     flight_time = db.Column(db.String(100), nullable = True)
     max_speed = db.Column(db.String(100))
     dimensions = db.Column(db.String(100))
@@ -85,18 +85,19 @@ class Drone(db.Model):
         self.user_token = user_token
 
     def __repr__(self):
-        return f'The following Drone has been added: {self.name}'
-
+        return f'The following drone has been created: {self.name}'
+    
     def set_id(self):
-        return secrets.token_urlsafe()
+        return str(uuid.uuid4())
 
-# API Schema via Marshmallow Package
+
+# API Schema via Marshmallow
 class DroneSchema(ma.Schema):
     class Meta:
-        fields = ['id', 'name', 'description', 'price', 'camera_quality', 'flight_time', 'max_speed', 'dimensions', 'weight', 'cost_of_prod', 'series']
+        fields = ['id', 'name', 'desciription', 'camera_quality', 'flight_time', 'max_speed', 'dimensions', 'weight', 'cost_of_prod', 'series']
 
-#Singular data point return
+# Singular data point return
 drone_schema = DroneSchema()
 
-#List of multiple objects return
-drones_schema = DroneSchema(many = True)
+# List of multiple onjects returned
+drone_schemas = DroneSchema(many = True)
