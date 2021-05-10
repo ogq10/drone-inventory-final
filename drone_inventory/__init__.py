@@ -9,6 +9,9 @@ from drone_inventory.models import db as root_db, login_manager, ma
 # CORS - cross origin resource sharing
 from flask_cors import CORS
 
+#import helper functions
+from .helpers import JSONEncoder
+
 app = Flask(__name__)
 
 app.config.from_object(Config)
@@ -28,4 +31,7 @@ login_manager.login_view = 'auth.signin'
 
 ma.init_app(app)
 CORS(app)
+
+app.json_encoder = JSONEncoder
+
 from drone_inventory import models
