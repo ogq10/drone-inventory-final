@@ -50,3 +50,34 @@ def get_drone(current_user_token, id):
     response = drone_schema.dump(drone)
     return jsonify(response)
 
+# UPDATE DRONE ENDPOINT
+@api.route('/drones/<id>', methods = ['POST', 'PUT'])
+@token_required
+def update_drone(current_user_token, id):
+    drone = Drone.query.get(id) # Getting a drone class by id
+
+    drone.name = request.json['name']
+    drone.description = request.json['description']
+    drone.price = request.json['price']
+    drone.cam_quality = request.json['cam_quality']
+    drone.flight_time = request.json['flight_time']
+    drone.max_speed = request.json['max_speed']
+    drone.dimensions = request.json['dimensions']
+    drone.weight = request.json['weight']
+    drone.cost_of_prod = request.json['cost_of_prod']
+    drone.series = request.json['series']
+    drone.user_token = current_user_token.token
+
+    db.session.commit()
+    response = drone_schema.dump(drone)
+    return jsonify(response)
+
+# DELETE DRONE ENDPOINT
+@api.route('/drones/<id>', methods = ['DELETE'])
+@token_required
+def delete_drone(current_user_token, id):
+    drone = Drone.query.get(id)
+    db.session.delete(drone)
+    db.session.commit()
+    response = drone.schema.dump(drone)
+    return jsonify(response)
