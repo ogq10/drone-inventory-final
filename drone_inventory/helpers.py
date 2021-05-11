@@ -1,6 +1,7 @@
 from functools import wraps
 import secrets
 
+from flask import request, jsonify
 from drone_inventory.models import Drone, User
 
 def token_required(our_flask_function):
@@ -15,11 +16,11 @@ def token_required(our_flask_function):
         
         try:
             current_user_token = User.query.filter_by(token = token).first()
-        
+
         except:
             owner = User.query.filter_by(token = token).first()
             if token != owner.token and secrets.compare_digest(token, owner.token):
-                return jsonify({'message': 'Token is invalid'})
+                return jsonify({'message': 'Token is Invalid'})
         return our_flask_function(current_user_token, *args, **kwargs)
     return decorated
 
@@ -27,11 +28,17 @@ import decimal
 from flask import json
 
 class JSONEncoder(json.JSONEncoder):
-    #Since we have decimal values into our db, we need to change them into strings
-    # This will make it easier to serialize these values into a JSON object
+    # Since we have decimal values inside of Drone Model, need to change into strings
+    # this will make it easier to serialize this data into a JSON object
     def default(self, obj):
         if isinstance(obj, decimal.Decimal):
             # Convert the decimal value into a string
             return str(obj)
+        
         # use super to override our objects within the class
         return super(JSONEncoder, self).default(obj)
+
+
+
+
+

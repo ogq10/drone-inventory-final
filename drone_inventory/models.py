@@ -94,7 +94,7 @@ class Drone(db.Model):
 # API Schema via Marshmallow
 class DroneSchema(ma.Schema):
     class Meta:
-        fields = ['id', 'name', 'desciription', 'camera_quality', 'flight_time', 'max_speed', 'dimensions', 'weight', 'cost_of_prod', 'series']
+        fields = ['id', 'name', 'description', 'camera_quality', 'flight_time', 'max_speed', 'dimensions', 'weight', 'cost_of_prod', 'series']
 
 # Singular data point return
 drone_schema = DroneSchema()

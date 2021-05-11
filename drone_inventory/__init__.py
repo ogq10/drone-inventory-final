@@ -9,8 +9,7 @@ from drone_inventory.models import db as root_db, login_manager, ma
 # CORS - cross origin resource sharing
 from flask_cors import CORS
 
-#import helper functions
-from .helpers import JSONEncoder
+from drone_inventory.helpers import JSONEncoder
 
 app = Flask(__name__)
 
