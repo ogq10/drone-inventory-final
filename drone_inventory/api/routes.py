@@ -77,8 +77,11 @@ def update_drone(current_user_token, id):
 @token_required
 def delete_drone(current_user_token, id):
     drone = Drone.query.get(id)
-    db.session.delete(drone)
-    db.session.commit()
-
-    response = drone_schema.dump(drone)
-    return jsonify(response)
+    if drone:
+        db.session.delete(drone)
+        db.session.commit()
+        
+        response = drone_schema.dump(drone)
+        return jsonify(response)
+    else:
+        return jsonify({'Error':'This drone does not exist'})
